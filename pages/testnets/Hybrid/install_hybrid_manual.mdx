@@ -2,7 +2,7 @@
 
 This project aims to provide installation, running, and maintenance capabilities of Hybrid validator node for potential and existing Hybrid Blockchain backers. The consensus structure of this chain is delegated proof of stake "DPos" and is governed by the symbiosis of Hybrid's implementation of go-ethereum and our system contracts. This repository has multiple release candidates inline so we recommend checking for updates for better functions and stability.
 
-## Prerequisites
+### Prerequisites
 
 Operating System: Ubuntu >= 20.04 LTS
 
@@ -57,4 +57,70 @@ touch ./chaindata/node1/.validator
 ```
 
 
-##Start Node
+## Start Node
+
+###Export Variables
+```bash copy
+curl eth0.me
+export IP=<You external IP>
+export CHAINID=1224
+export BOOTNODE="enr:-KO4QB_Jll8CKCu5vWCuwWqnNZekuL1WQ04dQOy_0kOv8wOlObJMtUScAnq_JwUwk_wCzxgC00oopO2g4aBsFn1F0SeGAY1lNDlEg2V0aMfGhEkzNGGAgmlkgnY0gmlwhJ9BFguJc2VjcDI1NmsxoQPGBUUpxPsTSIzIpDWapDOcGCg2XlhnmbQPnLKkrm9d5YRzbmFwwIN0Y3CCf5yDdWRwgn-c"
+```
+
+###Create SystemD File
+```bash copy
+sudo tee /etc/systemd/system/hybrid.service > /dev/null <<EOF
+[Unit]
+Description=Hybrid Node
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/Core-Blockchain/
+ExecStart=$HOME/Core-Blockchain/node_src/build/bin/geth --datadir /root/Core-Blockchain/chaindata/node$i --networkid $CHAINID --bootnodes $BOOTNODE --mine --port 326$j --nat extip:$IP --gpo.percentile 0 --gpo.maxprice 100 --gpo.ignoreprice 0 --unlock 0 --password /root/Core-Blockchain/chaindata/node$i/pass.txt --syncmode=full console"
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+```bash copy
+sudo systemctl daemon-reload
+sudo systemctl enable hybrid.service
+sudo systemctl start hybrid.service
+```
+
+## Importkey on MetaMask
+
+### Change Directory and copy Json file
+```bash sudo
+/root/Core-Blockchain/chaindata/node1/keystore
+```
+Cat you json file and save
+```bash
+cat  UTC--*... | jq .
+```
+### Import to Metamask
+
+    Access MetaMask Wallet: Open your MetaMask wallet extension or app.
+
+    Navigate to Settings: Click on the account avatar or menu icon usually located in the top-right corner of the MetaMask interface. From the dropdown menu, select "Settings."
+
+    Select "Import Account": In the Settings menu, choose the option labeled "Import Account."
+
+    Choose File: You'll be prompted to select a file from your device. Locate the JSON file containing your private key, and click "Open" to select it.
+
+    Enter Password (if applicable): If your JSON file is encrypted with a password, MetaMask will prompt you to enter the password associated with the file.
+
+    Review Account Details: After successfully unlocking the JSON file, MetaMask will display the details of the account, including the address associated with the private key. Review the information to ensure it matches your expectations.
+
+    Confirm Import: Once you've reviewed the details, click "Import" or "Confirm" to proceed with importing the account.
+
+    Backup: After importing, ensure you securely store your private key or seed phrase. Consider writing down the private key on paper and storing it in a safe place offline.
+
+    Security Considerations: Importing a private key exposes your funds to potential security risks. Ensure that you trust the source of the JSON file and take necessary precautions to protect your private keys from unauthorized access.
+
+    Access Imported Account: After importing, the newly imported account will appear among your MetaMask accounts. You can now use this account to interact with decentralized applications (dApps) or manage your digital assets.

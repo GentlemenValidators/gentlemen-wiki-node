@@ -59,7 +59,7 @@ touch ./chaindata/node1/.validator
 
 ## Start Node
 
-###Export Variables
+### Export Variables
 ```bash copy
 curl eth0.me
 export IP=<You external IP>
@@ -67,7 +67,7 @@ export CHAINID=1224
 export BOOTNODE="enr:-KO4QB_Jll8CKCu5vWCuwWqnNZekuL1WQ04dQOy_0kOv8wOlObJMtUScAnq_JwUwk_wCzxgC00oopO2g4aBsFn1F0SeGAY1lNDlEg2V0aMfGhEkzNGGAgmlkgnY0gmlwhJ9BFguJc2VjcDI1NmsxoQPGBUUpxPsTSIzIpDWapDOcGCg2XlhnmbQPnLKkrm9d5YRzbmFwwIN0Y3CCf5yDdWRwgn-c"
 ```
 
-###Create SystemD File
+### Create SystemD File
 ```bash copy
 sudo tee /etc/systemd/system/hybrid.service > /dev/null <<EOF
 [Unit]
@@ -97,7 +97,7 @@ sudo systemctl start hybrid.service
 
 ### Change Directory and copy Json file
 ```bash sudo
-/root/Core-Blockchain/chaindata/node1/keystore
+cd /root/Core-Blockchain/chaindata/node1/keystore
 ```
 Cat you json file and save
 ```bash

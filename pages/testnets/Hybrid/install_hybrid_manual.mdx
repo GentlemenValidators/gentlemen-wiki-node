@@ -1,0 +1,60 @@
+## Introduction
+
+This project aims to provide installation, running, and maintenance capabilities of Hybrid validator node for potential and existing Hybrid Blockchain backers. The consensus structure of this chain is delegated proof of stake "DPos" and is governed by the symbiosis of Hybrid's implementation of go-ethereum and our system contracts. This repository has multiple release candidates inline so we recommend checking for updates for better functions and stability.
+
+## Prerequisites
+
+Operating System: Ubuntu >= 20.04 LTS
+
+RAM: 8GB minimum, 32GB recommended
+
+Persistent Storage: 25GB minimum, 100GB high-speed SSD recommended
+
+
+### Step 1: Update and Upgrade
+```bash copy
+apt update && apt upgrade -y
+apt -y install build-essential tree
+```
+### Step 2: Clone git repository
+```bash sudo
+  git clone https://github.com/buildonhybrid/Core-Blockchain.git
+  cd Core-Blockchain
+```
+
+### Step 3: Install Golang
+```bash copy
+wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+
+echo 'export GOPATH=/usr/local/go' >> $HOME/.bashrc
+echo 'export GOBIN=$GOPATH/bin' >> $HOME/.bashrc
+echo 'export PATH=$PATH:$GOBIN' >> $HOME/.bashrc
+source $HOME/.bashrc
+```
+
+### Step 4: Build Geth
+
+```bash copy
+  cd node_src
+  make all
+```
+
+### Step 3: Create directory and write password
+```bash copy
+mkdir ./chaindata/node1
+cd node1
+nano pass.txt
+```
+
+### Step 5: Install Geth Key
+This step is very important. Input a password that will be used for a newly created validator account. In next step you will recieve a public key for your validator account"
+Once a validator account is created using your given password, I'll give you where the keystore file is located so you can import it in metamask
+
+```bash copy
+./node_src/build/bin/geth --datadir ./chaindata/node1 account new --password ./chaindata/node1/pass.txt
+touch ./chaindata/node1/.validator
+```
+
+
+##Start Node

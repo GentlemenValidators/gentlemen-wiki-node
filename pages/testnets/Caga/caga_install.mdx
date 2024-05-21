@@ -1,0 +1,65 @@
+## Introduction
+
+This project aims to provide installation, running, and maintenance capabilities of CAGA validator node for potential and existing CAGA Blockchain backers.
+
+## Prerequisites
+
+Operating System: Ubuntu >= 20.04 LTS
+
+RAM: 8GB minimum, 32GB recommended
+
+Persistent Storage: 25GB minimum, 100GB high-speed SSD recommended
+
+
+### Step 1: Update and Upgrade
+```bash copy
+apt update && apt upgrade -y
+apt -y install build-essential tree
+```
+### Step 2: Clone git repository
+```bash sudo
+  git clone https://github.com/ethereum/go-ethereum
+  cd go-ethereum
+```
+
+### Step 3: Install Golang
+```bash copy
+wget https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+
+echo 'export GOPATH=/usr/local/go' >> $HOME/.bashrc
+echo 'export GOBIN=$GOPATH/bin' >> $HOME/.bashrc
+echo 'export PATH=$PATH:$GOBIN' >> $HOME/.bashrc
+source $HOME/.bashrc
+```
+
+### Step 4: Build Geth
+
+```bash copy
+  make all
+```
+
+### Step 3: Download Genesis file and install
+```bash copy
+wget https://gentlemenvalidators.com/caga
+mv caga genesis.json
+geth --datadir ./chaindata/node1/ init ./genesis.json
+```
+
+### Step 5: Install Config P2P
+
+```bash copy
+cd ./chaindata
+nano config.toml
+```
+### Paste next
+```bash copy
+[Node.P2P]
+StaticNodes = ["enode://c619a2c46f6f5b7a90483937a4e49d0ed8a4a6729f47ba4adc8daaa9cc8b040afc354a131f66c9ac9eae45e55dcb0d62094a46f6565c99641c29799b07d99d9a@34.154.101.0:30301","enode://401690bbb3f833ac0c81bbc9d1e79d941a421b717386f6caa279cb7ddfd9c58ac48f02b53df7e2165aeb2d75968da773c9d68149d1fec579b1eac9a9158c5796@34.154.101.0:30301","enode://8024881547e6ff2c5f1e25a8e786fc4e4f81dc6f2b5fa9cbb6b0393ba84ce7b8a6158200bd6af0614cff4695cb429d0e2e2f800aafa130e44b81075d6e8df165@34.165.46.102:30309","enode://f4bdcac29c47ae740a3f2030bcc726989b8ae7707fe2b3c119dd9cefb113b7f8a67f9e19cbc6b20a4e40831110f63c038f0a43f61a23569b7ce231fd4391f0b8@34.165.46.102:30301"]
+```
+
+##Start Node
+
+```bash copy
+geth --datadir /root/chaindata/node1 --networkid 72778  --config /root/chaindata/config.toml  --port 3261 --nat extip:you_ip
+```
